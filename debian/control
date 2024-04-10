@@ -1,0 +1,18 @@
+#  SPDX-License-Identifier: GPL-2+
+#  Copyright (C) 2024, Advanced Micro Devices, Inc.
+
+Source: ar1335-module
+Section: kernel
+Priority: optional
+Maintainer: vishnu <vishnuvardhan.ravuri@amd.com>, anil <anil.mamidala@amd.com>
+Build-Depends: debhelper-compat (= 13), dkms
+Standards-Version: 4.6.0
+Homepage: https://gitenterprise.xilinx.com/SOM/ar1335-module
+Rules-Requires-Root: binary-targets
+
+Package: ar1335-module
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Camera Control device drivers
+ This package contains drivers for 'ar1335 camera module to run on kv260 board' and
+ uses DKMS to automatically build the kernel modules.
