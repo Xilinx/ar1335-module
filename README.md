@@ -19,8 +19,7 @@ They are packaged for debian installation as shown in the next section
   $ sudo dkms install -m ar1335-module -v 0.1
 ```
 * `xmutil loadapp kv260-bist` will load the dkms installed drivers on target
-	Note: For kv260-bist firmware use given kv260-bist.dtsi or kv260-bist.dtbo 
-        for getting master clock and MIPI data lanes.
+	Note: for getting master clock and MIPI data lanes, Modify device tree based on given YAML file.
 
 # Verify module installation
 
