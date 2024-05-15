@@ -1,4 +1,4 @@
-# motor-control-iio-modules
+# ar1335-module
 
 This repository contains the Kernel drivers for the Kv260 Camera Control
 Application. The drivers are built on target using DKMS (Dynamic Kernel Module Support) framework.
@@ -19,6 +19,7 @@ They are packaged for debian installation as shown in the next section
   $ sudo dkms install -m ar1335-module -v 0.1
 ```
 * `xmutil loadapp kv260-bist` will load the dkms installed drivers on target
+	Note: for getting master clock and MIPI data lanes, Modify device tree based on given YAML file.
 
 # Verify module installation
 
