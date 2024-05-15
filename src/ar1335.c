@@ -1144,7 +1144,7 @@ static const struct v4l2_subdev_ops ar1335_subdev_ops = {
 	.pad = &ar1335_pad_ops,
 };
 
-static int ar1335_probe(struct i2c_client *client, const struct i2c_device_id *id)
+static int ar1335_probe(struct i2c_client *client)
 {
 	struct v4l2_fwnode_endpoint ep = {
 		.bus_type = V4L2_MBUS_CSI2_DPHY
@@ -1261,7 +1261,7 @@ entity_cleanup:
 	return ret;
 }
 
-static int ar1335_remove(struct i2c_client *client)
+static void ar1335_remove(struct i2c_client *client)
 {
 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 	struct ar1335_dev *sensor = to_ar1335_dev(sd);
@@ -1270,7 +1270,6 @@ static int ar1335_remove(struct i2c_client *client)
 	media_entity_cleanup(&sensor->sd.entity);
 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
 	mutex_destroy(&sensor->lock);
-	return 0;
 }
 
 static const struct of_device_id ar1335_id[] = {
