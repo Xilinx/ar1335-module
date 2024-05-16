@@ -1007,7 +1007,6 @@ static int ar1335_power_off(struct device *dev)
 static int ar1335_power_on(struct device *dev)
 {
 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-	struct i2c_client *client = v4l2_get_subdevdata(sd);
 	struct ar1335_dev *sensor = to_ar1335_dev(sd);
 	unsigned int cnt;
 	int ret;
@@ -1105,7 +1104,6 @@ err:
 
 static int ar1335_post_streamoff(struct v4l2_subdev *sd)
 {
-	struct ar1335_dev *sensor = to_ar1335_dev(sd);
 	return 0;
 }
 
