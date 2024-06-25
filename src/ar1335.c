@@ -1287,7 +1287,7 @@ static struct i2c_driver ar1335_driver = {
 
 module_i2c_driver(ar1335_driver);
 
-MODULE_AUTHOR("Anil Kumar Mamidala <amamidal@xilinx.com>, Vishnu Vardhan Ravuri <vishnuvardhan.ravuri@amd.com>");
+MODULE_AUTHOR("Anil Kumar Mamidala, Vishnu Vardhan Ravuri");
 MODULE_DESCRIPTION("V4L driver for camera sensor AR1335");
 MODULE_LICENSE("GPL v2");
 

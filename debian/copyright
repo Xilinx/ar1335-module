@@ -1,7 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: ar1335-module
-Upstream-Contact: https://forums.xilinx.com
-Source: https://gitenterprise.xilinx.com/SOM/ar1335-module
+Source: https://github.com/Xilinx/ar1335-module
 
 Files: *
 Copyright: 2024 Advanced Micro Devices, Inc.
