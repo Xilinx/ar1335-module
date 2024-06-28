@@ -4,8 +4,8 @@
  *
  * Copyright (C) 2024 Advanced Micro Devices, Inc.
  *
- * Contacts: Anil Kumar Mamidala <anil.mamidal@amd.com>
- *           Vishnu Vardhan Ravuri <vishnuvardhan.ravuri@amd.com>
+ * Contacts: Anil Kumar Mamidala
+ *           Vishnu Vardhan Ravuri
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
