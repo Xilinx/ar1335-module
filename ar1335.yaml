@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
 title: ON Semiconductor AR1335 MIPI CSI-2 sensor
 
 maintainers:
-  - Anil Kumar Mamidala <amamidal@xilinx.com>, Vishnu Vardhan Ravuri <vishnuvardhan.ravuri@amd.com>
+  - Anil Kumar Mamidala, Vishnu Vardhan Ravuri
 
 description: |-
   The AR1335 is a raw CMOS image sensor with MIPI CSI-2 and

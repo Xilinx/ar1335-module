@@ -2,6 +2,6 @@ ar1335-module (0.1-1) jammy; urgency=medium
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
- -- Vishnu <vishnuvardhan.ravuri@amd.com>, Anil <anil.mamidala@amd.com>  Wed, 10 Apr 2024 16:37:12 +0000
+ -- Anil Kumar Mamidala, Vishnu Vardhan Ravuri  Wed, 10 Apr 2024 16:37:12 +0000
  
 

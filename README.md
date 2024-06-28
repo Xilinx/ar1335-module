@@ -10,7 +10,7 @@ They are packaged for debian installation as shown in the next section
   $ sudo apt install dkms
   $ sudo rm -r /usr/src/ar1335-module-0.1
   $ sudo mkdir -p /usr/src/ar1335-module-0.1
-  $ git clone  https://gitenterprise.xilinx.com/SOM/ar1335-module
+  $ git clone  https://github.com/Xilinx/ar1335-module
   $ sudo cp ar1335-module/src/* /usr/src/ar1335-module-0.1/
   $ sudo cp ar1335-module/debian/ar1335-module.dkms
 /usr/src/ar1335-module-0.1/dkms.conf
@@ -28,7 +28,7 @@ $ modinfo ar1335
 filename:       /lib/modules/5.15.0-1027-xilinx-zynqmp/updates/dkms/ar1335.ko
 license:        GPL v2
 description:    V4L driver for camera sensor AR1335
-author:         Anil Kumar Mamidala <amamidal@xilinx.com>
+author:         Anil Kumar Mamidala
 srcversion:     28A54931BD728E00B47D4D7
 alias:          of:N*T*Car1335C*
 alias:          of:N*T*Car1335

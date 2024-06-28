@@ -4,8 +4,8 @@
  *
  * Copyright (C) 2024 Advanced Micro Devices, Inc.
  *
- * Contacts: Anil Kumar Mamidala <anil.mamidal@amd.com>
- *           Vishnu Vardhan Ravuri <vishnuvardhan.ravuri@amd.com>
+ * Contacts: Anil Kumar Mamidala
+ *           Vishnu Vardhan Ravuri
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -1007,7 +1007,6 @@ static int ar1335_power_off(struct device *dev)
 static int ar1335_power_on(struct device *dev)
 {
 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-	struct i2c_client *client = v4l2_get_subdevdata(sd);
 	struct ar1335_dev *sensor = to_ar1335_dev(sd);
 	unsigned int cnt;
 	int ret;
@@ -1105,7 +1104,6 @@ err:
 
 static int ar1335_post_streamoff(struct v4l2_subdev *sd)
 {
-	struct ar1335_dev *sensor = to_ar1335_dev(sd);
 	return 0;
 }
 
@@ -1144,7 +1142,7 @@ static const struct v4l2_subdev_ops ar1335_subdev_ops = {
 	.pad = &ar1335_pad_ops,
 };
 
-static int ar1335_probe(struct i2c_client *client, const struct i2c_device_id *id)
+static int ar1335_probe(struct i2c_client *client)
 {
 	struct v4l2_fwnode_endpoint ep = {
 		.bus_type = V4L2_MBUS_CSI2_DPHY
@@ -1261,7 +1259,7 @@ entity_cleanup:
 	return ret;
 }
 
-static int ar1335_remove(struct i2c_client *client)
+static void ar1335_remove(struct i2c_client *client)
 {
 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 	struct ar1335_dev *sensor = to_ar1335_dev(sd);
@@ -1270,7 +1268,6 @@ static int ar1335_remove(struct i2c_client *client)
 	media_entity_cleanup(&sensor->sd.entity);
 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
 	mutex_destroy(&sensor->lock);
-	return 0;
 }
 
 static const struct of_device_id ar1335_id[] = {
@@ -1290,7 +1287,7 @@ static struct i2c_driver ar1335_driver = {
 
 module_i2c_driver(ar1335_driver);
 
-MODULE_AUTHOR("Anil Kumar Mamidala <amamidal@xilinx.com>, Vishnu Vardhan Ravuri <vishnuvardhan.ravuri@amd.com>");
+MODULE_AUTHOR("Anil Kumar Mamidala, Vishnu Vardhan Ravuri");
 MODULE_DESCRIPTION("V4L driver for camera sensor AR1335");
 MODULE_LICENSE("GPL v2");
 
