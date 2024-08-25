@@ -11,7 +11,8 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
-
+#include <linux/videodev2.h>
+#include <media/v4l2-device.h>
 
 #include <linux/clk.h>
 #include <linux/delay.h>
@@ -30,6 +31,10 @@
 /* PLL and PLL2 */
 #define AR1335_PLL_MIN			(320 * 1000 * 1000)
 #define AR1335_PLL_MAX			(1200 * 1000 * 1000)
+#define MAX_FRAME_RATE 60
+#define MIN_FRAME_RATE 30
+#define AR1335_DEF_FRAME_RATE 30
+#define REG_FRAME_RATE 0x0340
 
 /* Effective pixel sample rate on the pixel array. */
 #define AR1335_PIXEL_CLOCK_RATE		(220 * 1000 * 1000)
@@ -141,6 +146,8 @@ struct ar1335_dev {
 	struct media_pad pad;
 	struct clk *extclk;
 	u32 extclk_freq;
+	struct v4l2_subdev subdev;
+	struct v4l2_ctrl_handler ctrl_handler;
 
 	struct regulator *supplies[ARRAY_SIZE(ar1335_supply_names)];
 	struct gpio_desc *reset_gpio;
@@ -1107,6 +1114,53 @@ static int ar1335_post_streamoff(struct v4l2_subdev *sd)
 	return 0;
 }
 
+static int ar1335_set_frame_interval(struct v4l2_subdev *sd,
+				     struct v4l2_subdev_state *state,
+				     struct v4l2_subdev_frame_interval *ival)
+{
+	struct ar1335_dev *sensor = to_ar1335_dev(sd);
+	struct v4l2_fract *tpf = &ival->interval;
+
+	if (tpf->numerator == 0 || tpf->denominator == 0 ||
+		(tpf->denominator > tpf->numerator * MAX_FRAME_RATE)) {
+			/* Reset to max frame rate */
+			tpf->numerator = 1;
+			tpf->denominator = MAX_FRAME_RATE;
+	}
+
+	sensor->frame_rate.numerator = tpf->numerator;
+
+	if (tpf->numerator == 30) {
+		ar1335_write_reg(sensor, 0x340, 0xC4E);
+		ar1335_write_reg(sensor, 0x202, 0xC4E);
+		sensor->frame_rate.denominator = tpf->denominator;
+	} else if (tpf->numerator == 60) {
+		ar1335_write_reg(sensor, 0x340, 0x626);
+		ar1335_write_reg(sensor, 0x202, 0x5E8);
+		sensor->frame_rate.denominator = tpf->denominator;
+	} else {
+		ar1335_write_reg(sensor, 0x340, 0xC4E);
+		ar1335_write_reg(sensor, 0x202, 0xC4E);
+		sensor->frame_rate.denominator = MIN_FRAME_RATE;
+	}
+
+	return 0;
+}
+
+static int ar1335_get_frame_interval(struct v4l2_subdev *sd,
+				     struct v4l2_subdev_state *state,
+				     struct v4l2_subdev_frame_interval *interval)
+{
+	struct ar1335_dev *sensor = to_ar1335_dev(sd);
+
+	mutex_lock(&sensor->lock);
+	interval->interval.denominator = sensor->frame_rate.denominator;
+	interval->interval.numerator = sensor->frame_rate.numerator;
+	mutex_unlock(&sensor->lock);
+
+	return 0;
+}
+
 static int ar1335_s_stream(struct v4l2_subdev *sd, int enable)
 {
 	struct ar1335_dev *sensor = to_ar1335_dev(sd);
@@ -1132,6 +1186,8 @@ static const struct v4l2_subdev_video_ops ar1335_video_ops = {
 static const struct v4l2_subdev_pad_ops ar1335_pad_ops = {
 	.enum_mbus_code = ar1335_enum_mbus_code,
 	.enum_frame_size = ar1335_enum_frame_size,
+	.set_frame_interval = ar1335_set_frame_interval,
+	.get_frame_interval = ar1335_get_frame_interval,
 	.get_fmt = ar1335_get_fmt,
 	.set_fmt = ar1335_set_fmt,
 };
@@ -1160,6 +1216,8 @@ static int ar1335_probe(struct i2c_client *client)
 	sensor->i2c_client = client;
 	sensor->fmt.width = AR1335_WIDTH_MAX;
 	sensor->fmt.height = AR1335_HEIGHT_MAX;
+	sensor->frame_rate.numerator = 1;
+	sensor->frame_rate.denominator = AR1335_DEF_FRAME_RATE;
 	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
 						   FWNODE_GRAPH_ENDPOINT_NEXT);
 	if (!endpoint) {
