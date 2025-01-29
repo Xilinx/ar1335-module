@@ -463,7 +463,7 @@ static void ar1335_adj_fmt(struct v4l2_mbus_framefmt *fmt)
 			   AR1335_WIDTH_MAX);
 	fmt->height = clamp(ALIGN(fmt->height, 4), AR1335_HEIGHT_MIN,
 			    AR1335_HEIGHT_MAX);
-	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+	fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
 	fmt->field = V4L2_FIELD_NONE;
 	fmt->colorspace = V4L2_COLORSPACE_SRGB;
 	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
