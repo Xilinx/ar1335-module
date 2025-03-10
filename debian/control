@@ -5,7 +5,7 @@ Source: ar1335-module
 Section: kernel
 Priority: optional
 Maintainer: Anil Kumar Mamidala<anil.mamidala@amd.com>, Vishnu Vardhan Ravuri<vishnuvardhan.ravuri@amd.com>
-Build-Depends: debhelper-compat (= 13), dkms
+Build-Depends: debhelper-compat (= 13), dkms, dh-dkms
 Standards-Version: 4.6.0
 Homepage: https://github.com/Xilinx/ar1335-module
 Rules-Requires-Root: binary-targets
